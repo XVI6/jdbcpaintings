@@ -6,6 +6,7 @@ public class Painting {
 	
 	private String name;
 	private int yoc;
+	private String artist;
 	private long idReproduktor;
 	
 	public Painting() {
@@ -41,6 +42,14 @@ public class Painting {
 
 	public void setYoc(int yoc) {
 		this.yoc = yoc;
+	}
+	
+	public String getArtist() {
+		return artist;
+	}
+
+	public void setArtist(String artist) {
+		this.artist = artist;
 	}
 
 	public long getIdReproduktor() {

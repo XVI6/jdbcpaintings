@@ -31,16 +31,18 @@ public class ReproductorManager {
 	
 	private PreparedStatement addReproductorStmt;
 	
+	private PreparedStatement updateReproductorStmt;
 	
 	
-	private Statement statment;
+	
+	private Statement statement;
 	
 	
 	public ReproductorManager(){
 		
 		try {
 			connection = DriverManager.getConnection(url);
-			statment = connection.createStatement();
+			statement = connection.createStatement();
 			
 			ResultSet result = connection.getMetaData().getTables(null, null, null, null);
 			boolean table = false;
@@ -54,10 +56,10 @@ public class ReproductorManager {
 			
 			if (!table) {
 				
-				statment.executeUpdate(createTableReproductor);
+				statement.executeUpdate(createTableReproductor);
 				
 				
-				getFromPaintingsStmt = connection.prepareStatement("SELECT * FROM Painting WHERE paintingId = ?");
+				getFromPaintingsStmt = connection.prepareStatement("SELECT * FROM Reproductor WHERE paintingId = ?");
 				
 				getAllReproductorStmt = connection.prepareStatement("SELECT * FROM Reproductor");
 				
@@ -65,18 +67,25 @@ public class ReproductorManager {
 				
 				deleteFromPaintingStmt = connection.prepareStatement("DELETE FROM Reproductor WHERE paintingId = ?");
 				
-				addReproductorStmt = connection.prepareStatement("INSERT INTO Reproductor ( name, country, city, adress, telephone, e_mail VALUES (?, ?, ?, ?, ?, ?)");
+				addReproductorStmt = connection.prepareStatement("INSERT INTO Reproductor ( name, country, city, adress, telephone, e_mail ) VALUES (?, ?, ?, ?, ?, ?)");
+				
+				updateReproductorStmt = connection.prepareStatement("UPDATE Reproductor SET name=?, country=?, city=?, adress=?, telephone=?, e_mail=? WHERE id = ?");
+				
+				
 	/*
-	private PreparedStatement getFromPaintings;
+	private PreparedStatement getFromPaintings;  pobranie x należących do y
 	
-	private PreparedStatement getAllReproductor;
+	private PreparedStatement getAllReproductor;  pobranie wszystkich y
 
 	private PreparedStatement aaa; //???????? przypisanie x do y
 	
-	private PreparedStatement deleteFromPainting;
+	private PreparedStatement deleteFromPainting;  usunięcie x z y
 	
-	private PreparedStatement addReproductor;
+	private PreparedStatement addReproductor;  dodanie do tabeli x, dodanie do tabeli y 
+	
+	updateReproductor
 	*/
+				
 			}
 			
 		} catch (SQLException e) {
@@ -86,7 +95,8 @@ public class ReproductorManager {
 	}
 	
 	
-	// 1 -- getFromPaintingsStmt 
+	// 1 -- getFromPaintingsStmt ---!!!---
+	//+
 	public List<Reproduktor> getFromPaintings(Painting painting) {
 		List<Reproduktor> reproduktors = new ArrayList<Reproduktor>();
 		
@@ -115,6 +125,7 @@ public class ReproductorManager {
 	
 	
 	// 2 -- getAllReproductorStmt
+	// +
 	
 	public List<Reproduktor> getAllReproductor() {
 		List<Reproduktor> reproduktors = new ArrayList<Reproduktor>();
@@ -142,9 +153,10 @@ public class ReproductorManager {
 	
 	
 	// 3 -- ???????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????
-	
+	// +
 	
 	// 4 -- deleteFromPainting
+	// +
 	
 	public void deleteFromPainting(Painting painting) {
 		
@@ -160,6 +172,7 @@ public class ReproductorManager {
 	}
 	
 	// 5 -- addReproductor
+	// +
 	public int addReproductor(Reproduktor reproduktor) {
 		int counter = 0;
 		
@@ -174,12 +187,38 @@ public class ReproductorManager {
 			
 			counter = addReproductorStmt.executeUpdate();
 			
-			
 		} catch (SQLException e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return counter;
 	}
+	
+	
+	// 6 -- addReproductor
+	
+	
+	public void updateReproductor(long id, Reproduktor reproduktor) {
+		
+		try {
+			
+			updateReproductorStmt.setString(1, reproduktor.getName());
+			updateReproductorStmt.setString(2, reproduktor.getCountry());
+			updateReproductorStmt.setString(3, reproduktor.getCity());
+			updateReproductorStmt.setString(4, reproduktor.getAdress());
+			updateReproductorStmt.setString(5, reproduktor.getTelephone());
+			updateReproductorStmt.setString(6, reproduktor.getE_mail());
+			updateReproductorStmt.setLong(7, id);
+			
+			updateReproductorStmt.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
+	
+	
 	
 }
