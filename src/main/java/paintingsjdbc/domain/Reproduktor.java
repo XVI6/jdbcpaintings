@@ -7,6 +7,7 @@ public class Reproduktor {
 	private String country;
 	private String city;
 	private String adress;
+	private String house_number;
 	private String telephone;
 	private String e_mail;
 	
@@ -14,15 +15,17 @@ public class Reproduktor {
 		super();
 	}
 	
-	public Reproduktor(String name, String country, String city, String adress, String telephone, String e_mail){
+	public Reproduktor(String name, String country, String city, String adress, String house_number, String telephone, String e_mail){
 		super();
 		this.name = name;
 		this.country = country;
 		this.city = city;
 		this.adress = adress;
+		this.house_number = house_number;
 		this.telephone = telephone;
 		this.e_mail = e_mail;
 	}
+	
 	
 	
 	public long getId() {
@@ -67,6 +70,14 @@ public class Reproduktor {
 
 	public String getTelephone() {
 		return telephone;
+	}
+	
+	public String getHouse_number() {
+		return house_number;
+	}
+
+	public void setHouse_number(String house_number) {
+		this.house_number = house_number;
 	}
 
 	public void setTelephone(String telephone) {
