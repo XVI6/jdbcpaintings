@@ -6,31 +6,31 @@ public class Painting {
 	
 	private String name;
 	private int yoc;
+	private int cost;
 	private String artist;
 	private String origin_artist;
-	private int cost;
 	private long idReproduktor;
 	
 	public Painting() {
 		super();
 	}
 	
-	public Painting(String name, int yoc, String artist, String origin_artist, int cost) {
+	public Painting(String name, int yoc, int cost, String artist, String origin_artist) {
 		super();
 		this.name = name;
 		this.yoc = yoc;
+		this.cost = cost;
 		this.artist = artist;
 		this.origin_artist = origin_artist;
-		this.cost = cost;
 	}
 	
-	public Painting(String name, int yoc, String artist, String origin_artist, int cost, long idReproduktor) {
+	public Painting(String name, int yoc, int cost, String artist, String origin_artist, long idReproduktor) {
 		super();
 		this.name = name;
 		this.yoc = yoc;
+		this.cost = cost;
 		this.artist = artist;
 		this.origin_artist = origin_artist;
-		this.cost = cost;
 		this.idReproduktor = idReproduktor;
 	}
 	

@@ -25,9 +25,7 @@ public class Reproduktor {
 		this.telephone = telephone;
 		this.e_mail = e_mail;
 	}
-	
-	
-	
+
 	public long getId() {
 		return id;
 	}
@@ -43,7 +41,7 @@ public class Reproduktor {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public String getCountry() {
 		return country;
 	}
@@ -68,16 +66,16 @@ public class Reproduktor {
 		this.adress = adress;
 	}
 
-	public String getTelephone() {
-		return telephone;
-	}
-	
 	public String getHouse_number() {
 		return house_number;
 	}
 
 	public void setHouse_number(String house_number) {
 		this.house_number = house_number;
+	}
+
+	public String getTelephone() {
+		return telephone;
 	}
 
 	public void setTelephone(String telephone) {
