@@ -3,6 +3,9 @@ package paintingsjdbc.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 
 import paintingsjdbc.domain.Painting;
@@ -27,34 +30,93 @@ public class Tests {
 	private final static String ARTIST_1 = "AnKnown";
 	private final static String ORIGIN_Artist_1 = "Vincent van Gogh";
 	
+	Reproduktor reproduktor = new Reproduktor(name, country, city, adress, house_num, telephone, e_mail);
+	Painting painting = new Painting(NAME_1, YOC_1, COST_1, ARTIST_1, ORIGIN_Artist_1);
+	
 	@Test
 	public void checkConnection(){
 		assertNotNull(manager.getConnection());
 	}
 	
-	/*
-	@Test
+	
+	//@Test
 	public void checkAddReproduktor() {
 		// TODO Auto-generated method stub
-		
-		Reproduktor reproduktor = new Reproduktor(name, country, city, adress, house_num, telephone, e_mail);
 		
 		assertEquals(1, manager.addReproductor(reproduktor));
 		
 	}
-	*/
 	
-	@Test
+	
+	//@Test
 	public void checkAddPainting() {
 		// TODO Auto-generated method stub
 		
-		Painting painting = new Painting(NAME_1, YOC_1, COST_1, ARTIST_1, ORIGIN_Artist_1);
-		
 		assertEquals(1, manager.addPainting(painting, name, e_mail));
-		
 	}
 	
 	
+	//@Test
+	public void checkSelectAllReproduktors() {
+		// TODO Auto-generated method stub
+		
+		assertEquals(1,manager.getAllReproductor().size());
+	}
+	
+	//@Test
+	public void checkSelectAllPaintings() {
+		// TODO Auto-generated method stub
+		
+		assertEquals(1, manager.getAllPaintings().size());
+	}
+	
+	//@Test
+	public void checkGetReproductorIdByName() {
+		// TODO Auto-generated method stub
+		
+		manager.getReproductorIdByName(reproduktor.getName(), reproduktor.getE_mail());
+	}
+	
+	//@Test
+	public void checkGetFromReproduktor() {
+		// TODO Auto-generated method stub
+		
+		assertEquals(1,manager.getFromReproduktor(reproduktor).size());
+	}
+	
+	//@Test
+	public void checkDeleteReproductorFromPaintin() {
+		// TODO Auto-generated method stub
+		
+		assertEquals(1, manager.deleteReproductorFromPaintin(painting));
+	}
+	
+	//@Test
+	public void checkUpdateReproductor() {
+		Reproduktor r = new Reproduktor();
+		r = reproduktor;
+		r.setCountry("Poland");
+		assertEquals(1, manager.updateReproductor(reproduktor, r));
+	}
+	
+	//@Test  //---------------------------------------------------------------------------------------------
+	public void checkUpdatePainting() {
+		Painting p = new Painting();
+		p = painting;
+		p.setYoc(1972);
+		assertEquals(1, manager.UpdatePainting(painting, p));
+	}
+	
+	@Test
+	public void checkDeletePainting() {
+		assertEquals(1, manager.deletePainting(painting));
+	}
+	
+	@Test
+	public void checkDeleteReproductor() {
+		// TODO Auto-generated method stub
+		assertEquals(1, manager.deleteReproductor(reproduktor));
+	}
 	
 	
 }
