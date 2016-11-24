@@ -48,7 +48,7 @@ public class Manager {
 	private PreparedStatement getPaintingIdByNameStmt;//		3.0
 	private PreparedStatement getReproductorIdByNameStmt;//		3.1
 	private PreparedStatement getFromReproduktorStmt; //3		3.2
-
+	
 	
 	private PreparedStatement deleteReproductorFromPaintingStmt; // 4	4.1
 	
@@ -135,7 +135,7 @@ public class Manager {
 							+ "WHERE idReproduktor = ?");
 			// 5.2
 			updatePaintingStmt = connection.
-					prepareStatement("UPDATE Painting SET name = ?, yoc = ?, cost = ?, artist = ?, origin_artist = ?, id_Reproduktor = ? "
+					prepareStatement("UPDATE Painting SET name = ?, yoc = ?, cost = ?, artist = ?, origin_artist = ? "
 							+ "WHERE idPainting = ?");
 			
 			
@@ -427,16 +427,16 @@ public class Manager {
 			
 			connection.setAutoCommit(false);
 			
-			updatePaintingStmt.setLong(7, getPaintingIdByName(old_painting.getName(), old_painting.getYoc()));
-
+			updatePaintingStmt.setLong(6, getPaintingIdByName(old_painting.getName(), old_painting.getYoc()));
+			
+			
 			updatePaintingStmt.setString(1, new_painting.getName());
 			updatePaintingStmt.setInt(2, new_painting.getYoc());
 			updatePaintingStmt.setInt(3, new_painting.getCost());
 			updatePaintingStmt.setString(4, new_painting.getArtist());
 			updatePaintingStmt.setString(5, new_painting.getOrigin_artist());
-			updatePaintingStmt.setLong(6, new_painting.getIdReproduktor());
 			
-			counter = updatePaintingStmt.executeUpdate();  // ?????????????
+			counter = updatePaintingStmt.executeUpdate();  
 			connection.commit();
 			
 		} catch (SQLException e) {
@@ -459,7 +459,7 @@ public class Manager {
 		int counter = 0;
 		
 		try {
-			deleteReproductorStmt.setLong(1, rep.getId());//
+			deleteReproductorStmt.setLong(1, rep.getId());
 			counter = deleteReproductorStmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO: handle exception
@@ -504,7 +504,5 @@ public class Manager {
 		
 		return count;
 	}
-	
-	
 	
 }
