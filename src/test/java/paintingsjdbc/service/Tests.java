@@ -15,8 +15,6 @@ public class Tests {
 	Manager manager = new Manager();
 	
 	
-	
-	
 	private final static String name1 = "name";
 	private final static String country1 = "country";
 	private final static String city1 = "city";
@@ -32,158 +30,187 @@ public class Tests {
 	private final static String ARTIST = "AnKnown";
 	private final static String ORIGIN_Artist = "Vincent van Gogh";
 	
-	/*
-	private final static String name = "imie";
-	private final static String country = "kraj";
-	private final static String city = "miasto";
-	private final static String adress = "adres";
-	private final static String house_num = "2/4a";
-	private final static String e_mail = "nowy_mail@mail.com";
-	private final static String telephone = "+48645614928";
-	
-	private final static String NAME1 = "Reproduction Mapa Swiata";
-	private final static int YOC1 = 2015;
-	private final static int COST1 = 102;
-	private final static String ARTIST1 = "Nowy";
-	private final static String ORIGIN_Artist1 = "nie znany";
-	*/
-	
 	Reproduktor reproduktor = new Reproduktor(name1, country1, city1, adress1, house_num1, telephone1, e_mail1);
 	Painting painting = new Painting(NAME, YOC, COST, ARTIST, ORIGIN_Artist);
 	
-	//Reproduktor reproduktor1 = new Reproduktor(name, country, city, adress, house_num, telephone, e_mail);
-	//Painting painting1 = new Painting(NAME, YOC, COST, ARTIST, ORIGIN_Artist);
-	
-	@Test
+	//@Test
+	@Before
 	public void checkConnection(){
+		System.out.println("test connection");
 		assertNotNull(manager.getConnection());
-		System.out.println("connection");
 	}
-	/*
+	
 	@Test
 	public void checkAddReproduktor() {
 		// TODO Auto-generated method stub
+		System.out.println("Add reproductor");
 		
+		manager.clear();
 		assertEquals(1, manager.addReproductor(reproduktor));
-		System.out.println("add reproductor");
+		manager.clear();
 		
 	}
 	
 	@Test
 	public void checkAddPainting() {
 		// TODO Auto-generated method stub
+		System.out.println("Add painting");
 		
+		manager.clear();
+		manager.addReproductor(reproduktor);
 		assertEquals(1, manager.addPainting(painting, reproduktor.getName(), reproduktor.getE_mail()));
-		System.out.println("add painting");
+		manager.clear();
 	}
 	
-	*/
+	
 	
 	
 	@Test
 	public void checkSelectAllReproduktors() {
 		// TODO Auto-generated method stub
+		System.out.println("select all reproductors");
 		
+		manager.clear();
+		manager.addReproductor(reproduktor);
 		assertEquals(1,manager.getAllReproductor().size());
-		System.out.println("select all rep");
+		manager.clear();
 	}
 	
 	@Test
 	public void checkSelectAllPaintings() {
 		// TODO Auto-generated method stub
+		System.out.println("select all paintings");
 		
+		manager.clear();
+		manager.addReproductor(reproduktor);
+		manager.addPainting(painting, reproduktor.getName(), reproduktor.getE_mail());
 		assertEquals(1, manager.getAllPaintings().size());
-		
-		System.out.println("select all paint");
+		manager.clear();
 	}
+
 	
 	@Test
 	public void checkGetReproductorIdByName() {
 		// TODO Auto-generated method stub
-		
+		System.out.println("Get reproductor id");
+
+		manager.clear();
+		manager.addReproductor(reproduktor);
 		manager.getReproductorIdByName(reproduktor.getName(), reproduktor.getE_mail());
-		System.out.println("get repr id");
+		manager.clear();
 	}
 	
 	@Test
 	public void checkGetFromReproduktor() {
 		// TODO Auto-generated method stub
+		System.out.println("Get from reproductor");
+
+		manager.clear();
+		manager.addReproductor(reproduktor);
+		
+		reproduktor.setId(manager.getReproductorIdByName(reproduktor.getName(), reproduktor.getE_mail()));
+		painting.setIdReproduktor(manager.getReproductorIdByName(reproduktor.getName(), reproduktor.getE_mail()));
+		
+		
+		manager.addPainting(painting, reproduktor.getName(), reproduktor.getE_mail());
 		
 		assertEquals(1,manager.getFromReproduktor(reproduktor).size());
-		System.out.println("get from rep");
+		manager.clear();
 	}
 	
-	//@Test
+	@Test
 	public void checkDeleteReproductorFromPaintin() {
 		// TODO Auto-generated method stub
+		System.out.println("Delete reproductor from paintings");
+		
+		manager.clear();
+		manager.addReproductor(reproduktor);
+		manager.addPainting(painting, reproduktor.getName(), reproduktor.getE_mail());
+		
+		reproduktor.setId(manager.getReproductorIdByName(reproduktor.getName(), reproduktor.getE_mail()));
+		painting.setIdReproduktor(manager.getReproductorIdByName(reproduktor.getName(), reproduktor.getE_mail()));
+		
 		assertEquals(1, manager.deleteReproductorFromPaintin(painting));
-		System.out.println("del rep from paint");
+		manager.clear();
 	}
+	
 	
 	@Test
 	public void checkUpdateReproductor() {
+		System.out.println("Update reproductor");
+		manager.clear();
+		manager.addReproductor(reproduktor);
 		Reproduktor r = new Reproduktor();
 		r = reproduktor;
 		r.setCountry("Poland");
+		
+		reproduktor.setId(manager.getReproductorIdByName(reproduktor.getName(), reproduktor.getE_mail()));
+		painting.setIdReproduktor(manager.getReproductorIdByName(reproduktor.getName(), reproduktor.getE_mail()));
+		
 		assertEquals(1, manager.updateReproductor(reproduktor, r));
-		System.out.println("upd rep");
+		
+		manager.clear();
 	}
+	
 	
 	@Test
 	public void checkUpdatePainting() {
+		System.out.println("Update painting");
+		
+		manager.clear();
+		manager.addReproductor(reproduktor);
+		manager.addPainting(painting, reproduktor.getName(), reproduktor.getE_mail());
 		Painting p = new Painting();
-		p = painting;
+		p.setName("NAME");
+		p.setArtist("ARTIST");
 		p.setYoc(1852);
+		p.setCost(125);
+		p.setOrigin_artist("ORIGIN");
+		
+		reproduktor.setId(manager.getReproductorIdByName(reproduktor.getName(), reproduktor.getE_mail()));
+		painting.setId(manager.getPaintingIdByName(painting.getName(), painting.getYoc()));
+		painting.setIdReproduktor(manager.getReproductorIdByName(reproduktor.getName(), reproduktor.getE_mail()));
+		
 		assertEquals(1, manager.UpdatePainting(painting, p));
-		System.out.println("upd paint");
+		
+		manager.clear();
 	}
 	
-	/*
-	//@Test
+	@Test
 	public void checkDeletePainting() {
+		System.out.println("Delete painting");
+
+		manager.clear();
+		manager.addReproductor(reproduktor);
+		manager.addPainting(painting, reproduktor.getName(), reproduktor.getE_mail());
+		
+		reproduktor.setId(manager.getReproductorIdByName(reproduktor.getName(), reproduktor.getE_mail()));
+		painting.setId(manager.getPaintingIdByName(painting.getName(), painting.getYoc()));
+		painting.setIdReproduktor(manager.getReproductorIdByName(reproduktor.getName(), reproduktor.getE_mail()));
+		
 		assertEquals(1, manager.deletePainting(painting));
-		assertEquals(0, manager.getPaintingIdByName(painting.getName(), painting.getYoc()));
+		
+		//assertEquals(0, manager.getPaintingIdByName(painting.getName(), painting.getYoc()));
+		
 		assertEquals(0, manager.getAllPaintings().size());
-		System.out.println("delete paint1");
+		
+		manager.clear();
 	}
 	
 	//@Test
+	@After
 	public void checkDeleteReproductor() {
 		// TODO Auto-generated method stub
-		assertEquals(1, manager.deleteReproductor(reproduktor));
-		assertEquals(0, manager.getReproductorIdByName(reproduktor.getName(), reproduktor.getE_mail()));
-		assertEquals(0, manager.getAllReproductor().size());
-		System.out.println("delete rep1");
-	}
-	*/
-	
-	
-	//@Test
-	@Before
-	public void checkAdd() {
-		// TODO Auto-generated method stub
-		assertEquals(1, manager.addReproductor(reproduktor));
-		System.out.println("add reproductor");
+		System.out.println("Delete reproductor");
 		
-		assertEquals(1, manager.addPainting(painting, reproduktor.getName(), reproduktor.getE_mail()));
-		System.out.println("add painting");
-	}
-	
-	
-	
-	
-	@After
-	public void checkDelete() {
-		assertEquals(1, manager.deletePainting(painting));
-		assertEquals(0, manager.getPaintingIdByName(painting.getName(), painting.getYoc()));
-		assertEquals(0, manager.getAllPaintings().size());
-		System.out.println("delete paint");
+		manager.clear();
+		manager.addReproductor(reproduktor);
+		
+		reproduktor.setId(manager.getReproductorIdByName(reproduktor.getName(), reproduktor.getE_mail()));
 		
 		assertEquals(1, manager.deleteReproductor(reproduktor));
-		assertEquals(0, manager.getReproductorIdByName(reproduktor.getName(), reproduktor.getE_mail()));
+		//assertEquals(0, manager.getReproductorIdByName(reproduktor.getName(), reproduktor.getE_mail()));
 		assertEquals(0, manager.getAllReproductor().size());
-		//manager.deleteReproductor(reproduktor);
-		System.out.println("delete rep");
+		manager.clear();
 	}
-	/**/
 }

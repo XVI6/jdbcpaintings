@@ -64,7 +64,8 @@ public class Manager {
 	// FK
 	private PreparedStatement addReproductorToPaintingStmt;//	7.1
 	
-	
+	private PreparedStatement clearReproductor;
+	private PreparedStatement clearPainting;
 	
 	private Statement statement;
 	
@@ -88,6 +89,7 @@ public class Manager {
 					break;
 				}
 			}
+			
 			
 			if (!table) {				
 				statement.executeUpdate(createTableReproductor);
@@ -135,7 +137,7 @@ public class Manager {
 							+ "WHERE idReproduktor = ?");
 			// 5.2
 			updatePaintingStmt = connection.
-					prepareStatement("UPDATE Painting SET name = ?, yoc = ?, cost = ?, artist = ?, origin_artist = ? "
+					prepareStatement("UPDATE Painting SET name = ?, yoc = ?, cost = ?, artist = ?, origin_artist = ?, id_Reproduktor = ?"
 							+ "WHERE idPainting = ?");
 			
 			
@@ -153,6 +155,9 @@ public class Manager {
 					prepareStatement("UPDATE Painting SET id_Reproduktor = ? WHERE idPainting = ?");
 			
 			
+			clearReproductor = connection.prepareStatement("DELETE FROM Reproductor");
+			clearPainting = connection.prepareStatement("DELETE FROM Painting");
+			
 		} catch (SQLException e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -160,8 +165,15 @@ public class Manager {
 	}
 	
 	
-	
-	
+	public void clear(){
+		try {
+			clearPainting.executeUpdate();
+			clearReproductor.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	// 0 
 	Connection getConnection() {
@@ -205,7 +217,7 @@ public class Manager {
 			
 			
 			painting.setId(getReproductorIdByName(name, e_mail));
-			
+			//System.out.println("Got: " + painting.getId());
 			
 			addPaintingStmt.setString(1, painting.getName()); 
 			addPaintingStmt.setInt(2, painting.getYoc());
@@ -227,6 +239,13 @@ public class Manager {
 				// TODO: handle exception
 				e2.printStackTrace();
 			}
+		}
+		try {
+			connection.setAutoCommit(true);
+			
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
 		}
 		return counter;
 	}
@@ -291,7 +310,7 @@ public class Manager {
 	
 	//3.0 
 	public long getPaintingIdByName(String name, int yoc) {
-		long p = 0;
+		long p = -1;
 		
 		try {
 			getPaintingIdByNameStmt.setString(1, name);
@@ -300,7 +319,6 @@ public class Manager {
 			ResultSet result = getPaintingIdByNameStmt.executeQuery();
 			
 			result.next();
-			
 			p = result.getLong("idPainting");
 			
 		} catch (SQLException e) {
@@ -314,7 +332,7 @@ public class Manager {
 	
 	//3.1
 	public long getReproductorIdByName(String name, String e_mail) {
-		long r = 0;
+		long r = -1;
 		
 		try {
 			
@@ -339,7 +357,6 @@ public class Manager {
 		List<Painting> paintings = new ArrayList<Painting>();
 		
 		try {
-			
 			getFromReproduktorStmt.setLong(1, reproduktor.getId()); 
 			
 			ResultSet result = getFromReproduktorStmt.executeQuery();
@@ -416,6 +433,13 @@ public class Manager {
 				e2.printStackTrace();
 			}
 		}
+		try {
+			connection.setAutoCommit(true);
+			
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 		return counter;
 	}
 	
@@ -427,14 +451,15 @@ public class Manager {
 			
 			connection.setAutoCommit(false);
 			
-			updatePaintingStmt.setLong(6, getPaintingIdByName(old_painting.getName(), old_painting.getYoc()));
-			
+			//updatePaintingStmt.setLong(7, getPaintingIdByName(old_painting.getName(), old_painting.getYoc()));
 			
 			updatePaintingStmt.setString(1, new_painting.getName());
 			updatePaintingStmt.setInt(2, new_painting.getYoc());
 			updatePaintingStmt.setInt(3, new_painting.getCost());
 			updatePaintingStmt.setString(4, new_painting.getArtist());
 			updatePaintingStmt.setString(5, new_painting.getOrigin_artist());
+			updatePaintingStmt.setLong(6, old_painting.getIdReproduktor());
+			updatePaintingStmt.setLong(7, old_painting.getId());
 			
 			counter = updatePaintingStmt.executeUpdate();  
 			connection.commit();
@@ -448,6 +473,13 @@ public class Manager {
 				// TODO: handle exception
 				e2.printStackTrace();
 			}
+		}
+		try {
+			connection.setAutoCommit(true);
+			
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
 		}
 		return counter;
 	}
