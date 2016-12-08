@@ -318,7 +318,11 @@ public class Manager {
 			
 			ResultSet result = getPaintingIdByNameStmt.executeQuery();
 			
-			result.next();
+			if (!result.next()) {
+				return -1;
+			}
+			
+			//result.next();
 			p = result.getLong("idPainting");
 			
 		} catch (SQLException e) {
@@ -341,10 +345,13 @@ public class Manager {
 			
 			ResultSet result = getReproductorIdByNameStmt.executeQuery();
 			
-			result.next();
+			if (!result.next()) {
+				return -1;
+			}
+			
+			//result.next();
 			r = result.getLong("idReproduktor"); 
-			
-			
+						
 		} catch (SQLException e) {
 			// TODO: handle exception
 			e.printStackTrace();

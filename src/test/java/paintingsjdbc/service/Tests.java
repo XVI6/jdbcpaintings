@@ -184,17 +184,29 @@ public class Tests {
 		manager.addReproductor(reproduktor);
 		manager.addPainting(painting, reproduktor.getName(), reproduktor.getE_mail());
 		
+		Reproduktor reproduktor2 = new Reproduktor("Imie", "Poland", "Gdansk", "Addsess", "23a", "+48546451684", "nowy@mail.com");
+		Painting painting2= new Painting("Obraz", 2015, 251, "Nowy Artysta", "Dziwny Obraz");
+		manager.addReproductor(reproduktor2);
+		manager.addPainting(painting2, reproduktor2.getName(), reproduktor2.getE_mail());
+		
 		reproduktor.setId(manager.getReproductorIdByName(reproduktor.getName(), reproduktor.getE_mail()));
 		painting.setId(manager.getPaintingIdByName(painting.getName(), painting.getYoc()));
 		painting.setIdReproduktor(manager.getReproductorIdByName(reproduktor.getName(), reproduktor.getE_mail()));
 		
+		reproduktor2.setId(manager.getReproductorIdByName(reproduktor2.getName(), reproduktor2.getE_mail()));
+		painting2.setId(manager.getPaintingIdByName(painting2.getName(), painting2.getYoc()));
+		painting2.setIdReproduktor(manager.getReproductorIdByName(reproduktor2.getName(), reproduktor2.getE_mail()));
+		
+		
+		
 		assertEquals(1, manager.deletePainting(painting));
 		
-		//assertEquals(0, manager.getPaintingIdByName(painting.getName(), painting.getYoc()));
+		assertEquals(-1, manager.getPaintingIdByName(painting.getName(), painting.getYoc()));
 		
-		assertEquals(0, manager.getAllPaintings().size());
+		assertEquals(1, manager.getAllPaintings().size());
 		
 		manager.clear();
+		
 	}
 	
 	//@Test
@@ -206,11 +218,17 @@ public class Tests {
 		manager.clear();
 		manager.addReproductor(reproduktor);
 		
+		Reproduktor reproduktor2 = new Reproduktor("Imie", "Poland", "Gdansk", "Addsess", "23a", "+48546451684", "nowy@mail.com");
+		manager.addReproductor(reproduktor2);
+		
 		reproduktor.setId(manager.getReproductorIdByName(reproduktor.getName(), reproduktor.getE_mail()));
+		reproduktor2.setId(manager.getReproductorIdByName(reproduktor2.getName(), reproduktor2.getE_mail()));
+		
 		
 		assertEquals(1, manager.deleteReproductor(reproduktor));
-		//assertEquals(0, manager.getReproductorIdByName(reproduktor.getName(), reproduktor.getE_mail()));
-		assertEquals(0, manager.getAllReproductor().size());
+		assertEquals(-1, manager.getReproductorIdByName(reproduktor.getName(), reproduktor.getE_mail()));
+		assertEquals(1, manager.getAllReproductor().size());
+		
 		manager.clear();
 	}
 }
